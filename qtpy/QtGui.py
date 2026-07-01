@@ -245,8 +245,11 @@ if PYQT6 or PYSIDE6:
             "globalX",
             "globalY",
         ):
-            if hasattr(_class, _obsolete_function):
-                delattr(_class, _obsolete_function)
+            try:
+                if hasattr(_class, _obsolete_function):
+                    delattr(_class, _obsolete_function)
+            except AttributeError as e:
+                print("Nonfatal error when loading qtpy:", e)
     QSinglePointEvent.pos = lambda self: self.position().toPoint()
     QSinglePointEvent.posF = lambda self: self.position()
     QSinglePointEvent.localPos = lambda self: self.position()
